@@ -60,5 +60,5 @@ urlpatterns = [
     ),
     path("redoc/", SchemaView.with_ui("redoc", cache_timeout=0), name="redoc"),
     path("admin/", admin.site.urls),
-    path("", include("school_grade.urls")),
+    path("school/", include("school_grade.urls")),
 ]

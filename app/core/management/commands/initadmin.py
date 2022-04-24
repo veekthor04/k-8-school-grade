@@ -11,7 +11,9 @@ User = get_user_model()
 
 
 class Command(BaseCommand):
-    """Creates a new superuser account if no super user account exist"""
+    """
+    Creates a new superuser account if no super user account exist
+    """
 
     help = "Creates a new superuser account if no super user account exist."
 
