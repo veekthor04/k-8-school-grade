@@ -14,8 +14,51 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include, re_path
+from django.shortcuts import redirect
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+
+SchemaView = get_schema_view(
+    openapi.Info(
+        title="SCHOOL GRADE API",
+        default_version="v1",
+        description="""Test description<br>
+        The `swagger-ui` view can be found [here](/swagger).<br>
+        The `ReDoc` view can be found [here](/redoc).<br>
+        The `swagger YAML document` can be found [here](/swagger.yaml).<br>
+        The `Django administration` can be accessed [here](/admin).
+        """,
+        terms_of_service="https://www.google.com/policies/terms/",
+        contact=openapi.Contact(email="victoradenuga04@yahoo.com"),
+        license=openapi.License(name="MIT License"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
+
+
+# Redirect to redoc
+def root_redirect(request):
+    schema_view = "redoc"
+    return redirect(schema_view, permanent=True)
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("", root_redirect, name="root_page"),
+    re_path(
+        r"^swagger(?P<format>.json|.yaml)$",
+        SchemaView.without_ui(cache_timeout=0),
+        name="schema-json",
+    ),
+    path(
+        "swagger/",
+        SchemaView.with_ui("swagger", cache_timeout=0),
+        name="swagger-ui",
+    ),
+    path("redoc/", SchemaView.with_ui("redoc", cache_timeout=0), name="redoc"),
+    path("admin/", admin.site.urls),
+    path("", include("school_grade.urls")),
 ]
