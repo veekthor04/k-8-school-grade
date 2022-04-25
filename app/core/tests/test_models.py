@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.db.models import signals
 
 from core.models import School, Chart
 
@@ -37,6 +38,7 @@ class ModelTests(TestCase):
         """
         Test creating, saving and retrieving Charts
         """
+        signals.post_save.disconnect(sender=Chart, dispatch_uid="my_id")
         first_chart = Chart()
         first_chart.query_params_dict = "test params"
         first_chart.save()
@@ -52,3 +54,15 @@ class ModelTests(TestCase):
         second_saved_chart = saved_charts[1]
         self.assertEqual(first_saved_chart.query_params_dict, "test params")
         self.assertEqual(second_saved_chart.query_params_dict, "test params 2")
+
+    def test_create_chart_image(self):
+        """
+        Test create_chart_image method creates an image
+        """
+        signals.post_save.disconnect(sender=Chart, dispatch_uid="my_id")
+        chart = Chart.objects.create(query_params_dict="{}")
+
+        chart.create_chart_image()
+
+        chart.refresh_from_db()
+        self.assertTrue(bool(chart.image))

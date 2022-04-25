@@ -66,7 +66,7 @@ class SchoolViewTest(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         saved_chart = saved_charts[0]
-        self.assertEqual(saved_chart.query_params_dict, "<QueryDict: {}>")
+        self.assertEqual(saved_chart.query_params_dict, "{}")
 
     def test_multiple_chart_model_is_not_created_for_the_same_list_query(self):
         """

@@ -31,7 +31,7 @@ class TestTasks(TestCase):
 
         signals.post_save.disconnect(sender=Chart, dispatch_uid="my_id")
         chart = Chart.objects.create(
-            query_params_dict="test query param",
+            query_params_dict="{}",
         )
 
         task = create_chart_image_task.s(chart.pk).apply()

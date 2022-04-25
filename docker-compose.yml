@@ -37,6 +37,8 @@ services:
       context: .
     command: celery -A app worker -l info
     env_file: .env
+    volumes:
+      - ./app:/app
     depends_on:
       - db
       - redis

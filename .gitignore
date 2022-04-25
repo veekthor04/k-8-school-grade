@@ -130,3 +130,6 @@ dmypy.json
 
 # db
 db/
+
+# chart
+chart/

@@ -1,4 +1,5 @@
 from django.urls import reverse
+from django.db.models import signals
 from django.test import TestCase
 from rest_framework import status
 from rest_framework.test import APIClient
@@ -24,6 +25,7 @@ class ChartViewTest(TestCase):
         """
         Test retrieve chart with right ID
         """
+        signals.post_save.disconnect(sender=Chart, dispatch_uid="my_id")
         chart = Chart.objects.create(
             query_params_dict="test query param",
         )

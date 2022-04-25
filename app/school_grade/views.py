@@ -22,6 +22,9 @@ class SchoolListView(generics.ListAPIView):
         response = super().list(request, *args, **kwargs)
         chart = self.__get_or_create_chart_for_request(request)
 
+        query_params_dict = request.query_params.copy()
+        query_params_dict.pop("page", None)
+
         # include chart detail in response
         response.data["chart_id"] = chart.chart_id
         return response
@@ -36,9 +39,8 @@ class SchoolListView(generics.ListAPIView):
         query_params_dict.pop("page", None)
 
         chart, created = Chart.objects.get_or_create(
-            query_params_dict=str(request.query_params)
+            query_params_dict=str(query_params_dict.dict())
         )
-
         return chart
 
 
