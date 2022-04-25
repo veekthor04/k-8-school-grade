@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # 3rd party
     "rest_framework",
     "drf_yasg",
+    "django_filters",
     # Local
     "core.apps.CoreConfig",
     "school_grade.apps.SchoolGradeConfig",
@@ -150,6 +151,9 @@ SWAGGER_SETTINGS = {
 # Rest framework settings
 
 REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',
     ),
