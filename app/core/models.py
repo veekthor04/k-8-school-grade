@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 
 
@@ -66,3 +67,22 @@ class School(models.Model):
 
     def __str__(self) -> str:
         return f"DBN: {self.dbn}, School Name: {self.school_name}"
+
+
+class Chart(models.Model):
+    """
+    Chart models to keep chart image and query params dict
+    """
+
+    chart_id = models.UUIDField(
+        default=uuid.uuid4, editable=False, unique=True, db_index=True
+    )
+    image = models.ImageField(null=True, blank=True, upload_to="chart/")
+    query_params_dict = models.TextField(max_length=1000)
+
+    def __str__(self) -> str:
+        return f"Chart for {self.query_params_dict}"
+
+    def create_chart_image(self):
+        print("image created")
+        pass

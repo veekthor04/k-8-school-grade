@@ -1,11 +1,13 @@
 from django.test import TestCase
 
-from core.models import School
+from core.models import School, Chart
 
 
 class ModelTests(TestCase):
     def test_saving_and_retrieving_schools(self):
-        """Test creating, saving and retrieving schools"""
+        """
+        Test creating, saving and retrieving schools
+        """
 
         first_school = School()
         first_school.dbn = "dbn_1"
@@ -30,3 +32,23 @@ class ModelTests(TestCase):
         second_saved_school = saved_schools[1]
         self.assertEqual(first_saved_school.dbn, "dbn_1")
         self.assertEqual(second_saved_school.dbn, "dbn_2")
+
+    def test_saving_and_retrieving_charts(self):
+        """
+        Test creating, saving and retrieving Charts
+        """
+        first_chart = Chart()
+        first_chart.query_params_dict = "test params"
+        first_chart.save()
+
+        second_chart = Chart()
+        second_chart.query_params_dict = "test params 2"
+        second_chart.save()
+
+        saved_charts = Chart.objects.all()
+        self.assertEqual(saved_charts.count(), 2)
+
+        first_saved_chart = saved_charts[0]
+        second_saved_chart = saved_charts[1]
+        self.assertEqual(first_saved_chart.query_params_dict, "test params")
+        self.assertEqual(second_saved_chart.query_params_dict, "test params 2")
